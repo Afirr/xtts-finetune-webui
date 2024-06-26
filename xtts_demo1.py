@@ -691,7 +691,7 @@ if __name__ == "__main__":
                 outputs=[progress_load,xtts_checkpoint,xtts_config,xtts_vocab,xtts_speaker,speaker_reference_audio],
             )
 
-    public_url = ngrok.connect(port=args.port)
+   public_url = ngrok.connect(args.port)
     print(f"ngrok tunnel \"{public_url}\" -> \"http://localhost:{args.port}\"")
 
     demo.launch(
