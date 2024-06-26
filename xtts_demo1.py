@@ -12,6 +12,8 @@ import gradio as gr
 import librosa.display
 import numpy as np
 from pyngrok import ngrok
+import argparse
+
 
 
 import torch
@@ -100,6 +102,7 @@ def run_tts(lang, tts_text, speaker_audio_file, temperature, length_penalty,repe
     return "Speech generated !", out_path, speaker_audio_file
 
 
+
 def load_params_tts(out_path,version):
     
     out_path = Path(out_path)
@@ -127,16 +130,7 @@ def load_params_tts(out_path,version):
      
 
 if __name__ == "__main__":
-    # Open an ngrok tunnel to the Gradio interface
-    public_url = ngrok.connect(port=args.port)
-    print(f"ngrok tunnel \"{public_url}\" -> \"http://localhost:{args.port}\"")
 
-    demo.launch(
-        share=False,
-        debug=False,
-        server_port=args.port,
-        server_name="0.0.0.0"
-    )
 
     parser = argparse.ArgumentParser(
         description="""XTTS fine-tuning demo\n\n"""
@@ -245,6 +239,7 @@ if __name__ == "__main__":
                 label="Progress:"
             )
             # demo.load(read_logs, None, logs, every=1)
+            
 
             prompt_compute_btn = gr.Button(value="Step 1 - Create dataset")
         
@@ -696,10 +691,12 @@ if __name__ == "__main__":
                 outputs=[progress_load,xtts_checkpoint,xtts_config,xtts_vocab,xtts_speaker,speaker_reference_audio],
             )
 
+    public_url = ngrok.connect(port=args.port)
+    print(f"ngrok tunnel \"{public_url}\" -> \"http://localhost:{args.port}\"")
+
     demo.launch(
         share=False,
         debug=False,
         server_port=args.port,
-        # inweb=True,
-        # server_name="localhost"
+        server_name="0.0.0.0"
     )
