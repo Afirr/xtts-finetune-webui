@@ -3,13 +3,13 @@ import os
 import sys
 import tempfile
 from pathlib import Path
-from pyngrok import ngrok
 
 import os
 import shutil
 import glob
 
 
+import gradio as gr
 import librosa.display
 import numpy as np
 import streamlit as st
@@ -176,6 +176,10 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
+from pyngrok import ngrok
+
+public_url = ngrok.connect(port = '80')
+print(f"Please click on the text below {public_url}")
 
     with gr.Blocks() as demo:
         with gr.Tab("1 - Data processing"):
